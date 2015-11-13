@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.input.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<VBox prefHeight="764.0" prefWidth="1151.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ChecksController">
+    <children>
+        <AnchorPane>
+            <children>
+                <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1151.0">
+                    <menus>
+                        <Menu fx:id="menu_file" mnemonicParsing="false" text="File">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="New" />
+                                <MenuItem mnemonicParsing="false" text="Open…" />
+                                <Menu mnemonicParsing="false" text="Open Recent" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="Close" />
+                                <MenuItem mnemonicParsing="false" text="Save" />
+                                <MenuItem mnemonicParsing="false" text="Save As…" />
+                                <MenuItem mnemonicParsing="false" text="Revert" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="Preferences…" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Edit">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Undo" />
+                                <MenuItem mnemonicParsing="false" text="Redo" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="Cut" />
+                                <MenuItem mnemonicParsing="false" text="Copy" />
+                                <MenuItem mnemonicParsing="false" text="Paste" />
+                                <MenuItem mnemonicParsing="false" text="Delete" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem mnemonicParsing="false" text="Select All" />
+                                <MenuItem mnemonicParsing="false" text="Unselect All" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+            </children>
+        </AnchorPane>
+        <AnchorPane VBox.vgrow="ALWAYS">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <TableView fx:id="tblv_ChecksData" editable="true" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="chk_code" minWidth="110.0" onEditCommit="#handleChkCodeEditCommit" prefWidth="-1.0" text="CHK_CODE" />
+                                <TableColumn fx:id="chk_mnemo" minWidth="110.0" onEditCommit="#handleChkMnemoEditCommit" prefWidth="-1.0" text="CHK_MNEMO" />
+                                <TableColumn fx:id="chk_type" minWidth="110.0" onEditCommit="#handleChkTypeEditCommit" prefWidth="-1.0" text="CHK_TYPE" />
+                                <TableColumn fx:id="chk_field" minWidth="110.0" onEditCommit="#handleChkFieldEditCommit" prefWidth="-1.0" text="CHK_FIELD" />
+                                <TableColumn fx:id="chk_value_c" minWidth="110.0" onEditCommit="#handleChkValueCEditCommit" prefWidth="-1.0" text="CHK_VALUE_C" />
+                                <TableColumn fx:id="chk_value_n" minWidth="110.0" onEditCommit="#handleChkValueNEditCommit" prefWidth="-1.0" text="CHK_VALUE_N" />
+                                <TableColumn fx:id="chk_value_lov_code" minWidth="140.0" onEditCommit="#handleChkValueLovCodeEditCommit" prefWidth="-1.0" text="CHK_VALUE_LOV_CODE" />
+                                <TableColumn fx:id="chk_function" minWidth="110.0" onEditCommit="#handleChkFunctionEditCommit" prefWidth="-1.0" text="CHK_FUNCTION" />
+                                <TableColumn fx:id="chk_comment" minWidth="110.0" onEditCommit="#handleChkCommentEditCommit" prefWidth="-1.0" text="CHK_COMMENT" />
+                                <TableColumn fx:id="chk_active" minWidth="110.0" onEditCommit="#handleChkActiveEditCommit" prefWidth="113.0" text="CHK_ACTIVE"/>
+                            </columns>
+                        </TableView>
+                        <AnchorPane prefHeight="50.0">
+                            <children>
+                                <Button fx:id="btnRunChecks" mnemonicParsing="false" onAction="#handleRunChecks" text="Run Checks" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="100.0" />
+                                <Button fx:id="btnSearchItems" mnemonicParsing="false" onAction="#handleGetData" text="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="25.0" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>
