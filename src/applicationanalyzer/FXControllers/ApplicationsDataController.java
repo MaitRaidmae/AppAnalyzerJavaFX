@@ -13,7 +13,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ListResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -214,7 +213,6 @@ public class ApplicationsDataController implements Initializable {
             }
             DataStore dataStore = DataStore.getDataStore();
             dataStore.setCurrentApp(row.getItem());
-            System.out.println(dataStore.toString());
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/ApplicationChecks.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
@@ -235,11 +233,31 @@ public class ApplicationsDataController implements Initializable {
     }
 
     @FXML
-    public void handleViewChecks(ActionEvent event) {
+    public void handleViewSuits(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/Checks.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/CheckSuits.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
+            stage.setTitle("Check suits");
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Errror!!! AAAaaaaerrgggh!!");
+            alert.setHeaderText("Error loading new window");
+            System.out.println("Error " + e.getMessage());
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    public void handleViewImage(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/ImageView.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("An Image!!!!");
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {

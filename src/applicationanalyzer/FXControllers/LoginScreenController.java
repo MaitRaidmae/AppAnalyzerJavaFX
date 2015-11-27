@@ -38,15 +38,11 @@ public class LoginScreenController implements Initializable {
     @FXML
     private Button btn_login;
     
-    public static String g_username;
-    public static String g_password;
     
     @FXML
     private void handleLoginButton(ActionEvent event){
         final String username = fld_username.getText();
-        final String password = fld_password.getText();
-        g_username=username;
-        g_password=password;        
+        final String password = fld_password.getText();     
         ConnectionManager login = new ConnectionManager();
         Connection db_con;
         try {

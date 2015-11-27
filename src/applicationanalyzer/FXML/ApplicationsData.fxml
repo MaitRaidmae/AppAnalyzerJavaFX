@@ -70,7 +70,8 @@
                         <AnchorPane prefHeight="50.0">
                             <children>
                                 <Button fx:id="btn_getAppData" mnemonicParsing="false" onAction="#handleGetData" text="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="45.0" />
-                                <Button fx:id="btn_viewChecks" layoutX="957.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleViewChecks" text="View Checks" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="125.0" />
+                                <Button fx:id="btn_viewSuits" layoutX="957.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleViewSuits" text="View Suits" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="125.0" />
+                                <Button fx:id="btn_viewImage" mnemonicParsing="false" onAction="#handleViewImage" text="View Image" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="215.0" />
                             </children>
                         </AnchorPane>
                     </children>

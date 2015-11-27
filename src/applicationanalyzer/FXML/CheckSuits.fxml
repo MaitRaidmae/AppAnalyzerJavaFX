@@ -9,8 +9,8 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-
-<VBox prefHeight="764.0" prefWidth="1151.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ChecksController">
+   
+<VBox prefHeight="764.0" prefWidth="1151.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.CheckSuitsController">
     <children>
         <AnchorPane>
             <children>
@@ -29,7 +29,7 @@
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="Preferences…" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
-                                <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
+                                <MenuItem mnemonicParsing="false" text="Quit" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Edit">
@@ -59,34 +59,16 @@
             <children>
                 <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                  <AnchorPane prefWidth="1113.0" VBox.vgrow="ALWAYS">
-                     <children>
-                              <TableView fx:id="tblv_ChecksData" editable="true" minWidth="-Infinity" prefWidth="1400.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                  <columns>
-                                      <TableColumn fx:id="chk_code" minWidth="110.0" onEditCommit="#handleChkCodeEditCommit" prefWidth="-1.0" text="CHK_CODE" visible="false" />
-                                      <TableColumn fx:id="chk_mnemo" minWidth="98.0" onEditCommit="#handleChkMnemoEditCommit" prefWidth="121.0" text="CHK_MNEMO" />
-                                      <TableColumn fx:id="chk_type" minWidth="60.0" onEditCommit="#handleChkTypeEditCommit" prefWidth="88.0" text="CHK_TYPE" />
-                                      <TableColumn fx:id="chk_field" minWidth="110.0" onEditCommit="#handleChkFieldEditCommit" prefWidth="131.0" text="CHK_FIELD" />
-                                      <TableColumn fx:id="chk_value_c" minWidth="110.0" onEditCommit="#handleChkValueCEditCommit" prefWidth="-1.0" text="CHK_VALUE_C" />
-                                      <TableColumn fx:id="chk_value_n" minWidth="110.0" onEditCommit="#handleChkValueNEditCommit" prefWidth="-1.0" text="CHK_VALUE_N" />
-                                      <TableColumn fx:id="chk_value_lov_code" minWidth="140.0" onEditCommit="#handleChkValueLovCodeEditCommit" prefWidth="145.0" text="CHK_VALUE_LOV_CODE" />
-                                      <TableColumn fx:id="chk_function" minWidth="105.0" onEditCommit="#handleChkFunctionEditCommit" prefWidth="105.0" text="CHK_FUNCTION" />
-                                      <TableColumn fx:id="chk_comment" maxWidth="1.7976931348623157E308" minWidth="110.0" onEditCommit="#handleChkCommentEditCommit" prefWidth="418.0" text="CHK_COMMENT" />
-                                      <TableColumn fx:id="chk_active" maxWidth="1.7976931348623157E308" minWidth="110.0" onEditCommit="#handleChkActiveEditCommit" prefWidth="162.0" text="CHK_ACTIVE" />
-                                  </columns>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                              </TableView>
-                     </children>
-                  </AnchorPane>
+                        <TableView fx:id="tblv_CheckSuits" editable="true">
+                            <columns>
+                                <TableColumn fx:id="chs_code" onEditCommit="#handleChsCodeEditCommit" text="CHS_CODE"></TableColumn>
+                                <TableColumn fx:id="chs_mnemo" onEditCommit="#handleChsMnemoEditCommit" text="CHS_MNEMO"></TableColumn>
+                                <TableColumn fx:id="chs_comment" onEditCommit="#handleChsCommentEditCommit" text="CHS_COMMENT"></TableColumn>
+                                <TableColumn fx:id="chs_datetime" onEditCommit="#handleChsDatetimeEditCommit" text="CHS_DATETIME"></TableColumn>
+                            </columns>
+                        </TableView>
                         <AnchorPane prefHeight="50.0">
                             <children>
-                                <Button fx:id="btnViewSuits" mnemonicParsing="false" onAction="#handleViewCheckSuits" text="View Suits" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="210.0" />
-                                <Button fx:id="btnRunSuiteChecks" mnemonicParsing="false" onAction="#handleRunSuiteChecks" text="Run Suite Checks" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="100.0" />
                                 <Button fx:id="btnSearchItems" mnemonicParsing="false" onAction="#handleGetData" text="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="25.0" />
                             </children>
                         </AnchorPane>

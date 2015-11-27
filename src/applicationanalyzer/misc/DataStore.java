@@ -14,6 +14,7 @@ import applicationanalyzer.DataClasses.ApplicationsData;
 public class DataStore {
     private static DataStore analyzerData = null;  
     private ApplicationsData currApp;
+    private Integer currSuite;
     
     protected DataStore() {
         
@@ -36,4 +37,13 @@ public class DataStore {
         }
         return currApp;
     }
+    
+    public void setCurrentSuite(Integer suiteCode){
+        currSuite = suiteCode;
+    }
+    
+    public Integer getCurrentSuite(){
+        return currSuite;
+    }
+    
 }

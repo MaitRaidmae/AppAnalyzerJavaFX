@@ -10,10 +10,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -21,12 +19,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.Alert;
-import applicationanalyzer.misc.ConnectionManager;
 import applicationanalyzer.DataClasses.ChecksData;
 import applicationanalyzer.misc.AlertSQL;
+import applicationanalyzer.misc.DataStore;
 import applicationanalyzer.misc.SQLExecutor;
 import applicationanalyzer.misc.StringToDecimal;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuBar;
@@ -63,62 +64,14 @@ public class ChecksController implements Initializable {
     private TableColumn chk_active;
     @FXML
     private MenuBar menuBar;
+    
+    DataStore data = DataStore.getDataStore();
 
     public void handleGetData(ActionEvent event) {
 //Define new connection
-        ConnectionManager connection = new ConnectionManager();
-        Connection db_connection;
-        db_connection = ConnectionManager.cl_conn;
-        Statement db_stmt;
-        ResultSet query_results;
-        ObservableList<ChecksData> obsArrayList = FXCollections.observableArrayList();
-        String sql = "select * from B_CHECKS where rownum<200";
-        try {
-            db_stmt = db_connection.createStatement();
-            query_results = db_stmt.executeQuery(sql);
-            while (query_results.next()) {
-                ChecksData table_row = new ChecksData(query_results.getInt(1),
-                        query_results.getString(2),
-                        query_results.getString(3),
-                        query_results.getString(4),
-                        query_results.getString(5),
-                        query_results.getDouble(6),
-                        query_results.getInt(7),
-                        query_results.getString(8),
-                        query_results.getString(9),
-                        query_results.getInt(10)
-                );
-                obsArrayList.add(table_row);
-            }
-            //new StringToDecimal() is a simple implementation of StringConverter<Number>
-            chk_code.setCellValueFactory(new PropertyValueFactory<>("ChkCode"));
-            chk_code.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Integer")));
-            chk_mnemo.setCellValueFactory(new PropertyValueFactory<>("ChkMnemo"));
-            chk_mnemo.setCellFactory(TextFieldTableCell.forTableColumn());
-            chk_type.setCellValueFactory(new PropertyValueFactory<>("ChkType"));
-            chk_type.setCellFactory(ComboBoxTableCell.forTableColumn(getLov("chk_type")));
-            chk_field.setCellValueFactory(new PropertyValueFactory<>("ChkField"));
-            chk_field.setCellFactory(TextFieldTableCell.forTableColumn());
-            chk_value_c.setCellValueFactory(new PropertyValueFactory<>("ChkValueC"));
-            chk_value_c.setCellFactory(TextFieldTableCell.forTableColumn());
-            chk_value_n.setCellValueFactory(new PropertyValueFactory<>("ChkValueN"));
-            chk_value_n.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Double")));
-            chk_value_lov_code.setCellValueFactory(new PropertyValueFactory<>("ChkValueLovCode"));
-            chk_value_lov_code.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Integer")));
-            chk_function.setCellValueFactory(new PropertyValueFactory<>("ChkFunction"));
-            chk_function.setCellFactory(TextFieldTableCell.forTableColumn());
-            chk_comment.setCellValueFactory(new PropertyValueFactory<>("ChkComment"));
-            chk_comment.setCellFactory(TextFieldTableCell.forTableColumn());
-            chk_active.setCellValueFactory(new PropertyValueFactory<>("ChkActive"));
-            chk_active.setCellFactory(new CheckBoxCellFactory());
-            tblv_ChecksData.setItems(obsArrayList);
-            tblv_ChecksData.getColumns().setAll(chk_code, chk_mnemo, chk_type, chk_field, chk_value_c, chk_value_n, chk_value_lov_code, chk_function, chk_comment, chk_active);
-        } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
-        }
-
+        initialize(null,null);
     }
-
+   
     @FXML
     public void handleChkCodeEditCommit(CellEditEvent<ChecksData, Integer> t) {
         ChecksData data = (ChecksData) t.getTableView().getItems().get(
@@ -204,6 +157,55 @@ public class ChecksController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        DataStore data = DataStore.getDataStore();
+        Integer currSuite = data.getCurrentSuite();
+        if (currSuite == null) {
+          currSuite = 1;
+        }
+        String sql = "select * from B_CHECKS where chk_chs_code = " + currSuite;
+        ResultSet query_results = SQLExecutor.executeQuery(sql);
+        ObservableList<ChecksData> obsArrayList = FXCollections.observableArrayList();
+        try {
+            while (query_results.next()) {
+                ChecksData table_row = new ChecksData(query_results.getInt(1),
+                        query_results.getString(2),
+                        query_results.getString(3),
+                        query_results.getString(4),
+                        query_results.getString(5),
+                        query_results.getDouble(6),
+                        query_results.getInt(7),
+                        query_results.getString(8),
+                        query_results.getString(9),
+                        query_results.getInt(10)
+                );
+                obsArrayList.add(table_row);
+            }
+            //new StringToDecimal() is a simple implementation of StringConverter<Number>
+            chk_code.setCellValueFactory(new PropertyValueFactory<>("ChkCode"));
+            chk_code.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Integer")));
+            chk_mnemo.setCellValueFactory(new PropertyValueFactory<>("ChkMnemo"));
+            chk_mnemo.setCellFactory(TextFieldTableCell.forTableColumn());
+            chk_type.setCellValueFactory(new PropertyValueFactory<>("ChkType"));
+            chk_type.setCellFactory(ComboBoxTableCell.forTableColumn(getLov("chk_type")));
+            chk_field.setCellValueFactory(new PropertyValueFactory<>("ChkField"));
+            chk_field.setCellFactory(TextFieldTableCell.forTableColumn());
+            chk_value_c.setCellValueFactory(new PropertyValueFactory<>("ChkValueC"));
+            chk_value_c.setCellFactory(TextFieldTableCell.forTableColumn());
+            chk_value_n.setCellValueFactory(new PropertyValueFactory<>("ChkValueN"));
+            chk_value_n.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Double")));
+            chk_value_lov_code.setCellValueFactory(new PropertyValueFactory<>("ChkValueLovCode"));
+            chk_value_lov_code.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Integer")));
+            chk_function.setCellValueFactory(new PropertyValueFactory<>("ChkFunction"));
+            chk_function.setCellFactory(TextFieldTableCell.forTableColumn());
+            chk_comment.setCellValueFactory(new PropertyValueFactory<>("ChkComment"));
+            chk_comment.setCellFactory(TextFieldTableCell.forTableColumn());
+            chk_active.setCellValueFactory(new PropertyValueFactory<>("ChkActive"));
+            chk_active.setCellFactory(new CheckBoxCellFactory());
+            tblv_ChecksData.setItems(obsArrayList);
+            tblv_ChecksData.getColumns().setAll(chk_code, chk_mnemo, chk_type, chk_field, chk_value_c, chk_value_n, chk_value_lov_code, chk_function, chk_comment, chk_active);
+        } catch (SQLException sqle) {
+            AlertSQL.AlertSQL(sqle);
+        }
     }
     
     private ObservableList<String> getLov(String fieldName) {
@@ -262,6 +264,29 @@ public class ChecksController implements Initializable {
 
             return checkBoxCell;
         }
-    }  
+    }
+    
+    @FXML
+    public void handleViewCheckSuits(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/CheckSuits.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Errror!!! AAAaaaaerrgggh!!");
+            alert.setHeaderText("Error loading new window");
+            System.out.println("Error " + e.getMessage());
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    public void handleRunSuiteChecks(ActionEvent event) {
+        boolean execution = SQLExecutor.executeProcedure("CHECKS.RUN_CHECKS("+data.getCurrentSuite()+")");
+    }
 
 }
