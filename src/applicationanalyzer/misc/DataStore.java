@@ -5,7 +5,8 @@
  */
 package applicationanalyzer.misc;
 
-import applicationanalyzer.DataClasses.ApplicationsData;
+import applicationanalyzer.DataClasses.Applications;
+import applicationanalyzer.DataClasses.Checks;
 
 /**
  *
@@ -13,8 +14,10 @@ import applicationanalyzer.DataClasses.ApplicationsData;
  */
 public class DataStore {
     private static DataStore analyzerData = null;  
-    private ApplicationsData currApp;
+    private Applications currApp;
     private Integer currSuite;
+    private Checks currCheck;
+    private String currEditableType;
     
     protected DataStore() {
         
@@ -27,13 +30,12 @@ public class DataStore {
         return analyzerData;
     }
     
-    public void setCurrentApp(ApplicationsData apl_instance){
+    public void setCurrentApp(Applications apl_instance){
         currApp = apl_instance;
     }
     
-    public ApplicationsData getCurrentApp(){
-        if (currApp == null) {
-            
+    public Applications getCurrentApp(){
+        if (currApp == null) {   
         }
         return currApp;
     }
@@ -45,5 +47,22 @@ public class DataStore {
     public Integer getCurrentSuite(){
         return currSuite;
     }
+    
+    public Checks getCurrentCheck(){
+        return currCheck;
+    }
+    
+    public void setCurrentCheck(Checks check){
+        currCheck = check;
+    }
+    
+    public String getCurrentEditableType(){
+        return currEditableType;
+    }
+    
+    public void setCurrentEditableType(String editable){
+        currEditableType = editable;
+    }
+    
     
 }

@@ -5,10 +5,10 @@
  */
 package applicationanalyzer.FXControllers;
 
-import applicationanalyzer.misc.AlertSQL;
+import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.DataClasses.AppChecks;
 import applicationanalyzer.DataClasses.ApplicationChecksData;
-import applicationanalyzer.DataClasses.ApplicationsData;
+import applicationanalyzer.DataClasses.Applications;
 import applicationanalyzer.misc.DataStore;
 import applicationanalyzer.misc.SQLExecutor;
 import java.net.URL;
@@ -68,7 +68,7 @@ public class ApplicationChecksDataController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         DataStore dataStore = DataStore.getDataStore();
-        ApplicationsData currApp = dataStore.getCurrentApp();
+        Applications currApp = dataStore.getCurrentApp();
         LinkedHashMap<String, String> fields = currApp.getFieldsWithValues();
         application_info.getColumnConstraints().add(new ColumnConstraints(150));
         application_info.getColumnConstraints().add(new ColumnConstraints(150));
@@ -101,7 +101,7 @@ public class ApplicationChecksDataController implements Initializable {
                 i++;
             }
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 }

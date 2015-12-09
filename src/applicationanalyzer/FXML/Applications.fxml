@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.input.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="860.0" prefWidth="1155.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ApplicationsDataController">
+<VBox prefHeight="860.0" prefWidth="1155.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ApplicationsController">
     <children>
         <MenuBar fx:id="menuBar" prefHeight="28.0" prefWidth="875.0" VBox.vgrow="NEVER">
             <menus>
@@ -53,20 +54,39 @@
             <children>
                 <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <TableView fx:id="tblv_ApplicationsData" editable="true" onMouseClicked="#applicantNameClicked" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn fx:id="apl_code" prefWidth="110.0" text="APL_CODE" />
-                                <TableColumn fx:id="apl_name" prefWidth="110.0" text="APL_NAME" />
-                                <TableColumn fx:id="apl_income" prefWidth="110.0" text="APL_INCOME" />
-                                <TableColumn fx:id="apl_obligations" prefWidth="110.0" text="APL_OBLIGATIONS" />
-                                <TableColumn fx:id="apl_reserve" prefWidth="110.0" text="APL_RESERVE" />
-                                <TableColumn fx:id="apl_debt_to_income" prefWidth="110.0" text="APL_DEBT_TO_INCOME" />
-                                <TableColumn fx:id="apl_age" prefWidth="110.0" text="APL_AGE" />
-                                <TableColumn fx:id="apl_education" prefWidth="110.0" text="APL_EDUCATION" />
-                                <TableColumn fx:id="apl_rejected" prefWidth="110.0" text="APL_REJECTED" />
-                                <TableColumn fx:id="apl_in_default" prefWidth="110.0" text="APL_IN_DEFAULT" />
-                            </columns>
-                        </TableView>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <TableView fx:id="tblv_Applications" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <columns>
+                                        <TableColumn fx:id="apl_code" text="APL_CODE" onEditCommit="#handleAplCodeEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_name" text="APL_NAME" onEditCommit="#handleAplNameEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_income" text="APL_INCOME" onEditCommit="#handleAplIncomeEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_obligations" text="APL_OBLIGATIONS" onEditCommit="#handleAplObligationsEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_reserve" text="APL_RESERVE" onEditCommit="#handleAplReserveEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_debt_to_income" text="APL_DEBT_TO_INCOME" onEditCommit="#handleAplDebtToIncomeEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_age" text="APL_AGE" onEditCommit="#handleAplAgeEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_education" text="APL_EDUCATION" onEditCommit="#handleAplEducationEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_rejected" text="APL_REJECTED" onEditCommit="#handleAplRejectedEditCommit"></TableColumn>
+                                        <TableColumn fx:id="apl_in_default" text="APL_IN_DEFAULT" onEditCommit="#handleAplInDefaultEditCommit"></TableColumn>
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                        <HBox alignment="TOP_CENTER" prefHeight="25.0">
+                            <children>
+                                <TextField fx:id="resultsField" alignment="CENTER" minWidth="-Infinity" onAction="#updateResults" prefHeight="25.0" prefWidth="111.0" promptText="NumberOfResults" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="25.0">
+                            <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" text="Number of results">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <Separator valignment="BOTTOM" />
                         <AnchorPane prefHeight="50.0">
                             <children>
                                 <Button fx:id="btn_getAppData" mnemonicParsing="false" onAction="#handleGetData" text="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="45.0" />

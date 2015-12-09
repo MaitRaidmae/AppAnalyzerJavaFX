@@ -5,7 +5,7 @@
  */
 package applicationanalyzer.FXControllers;
 
-import applicationanalyzer.misc.AlertSQL;
+import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.SQLExecutor;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
@@ -39,7 +39,7 @@ public class ImageViewController implements Initializable {
                 retImage = new Image(new ByteArrayInputStream(imgData));
             }
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
         imageView.setImage(retImage);
     }

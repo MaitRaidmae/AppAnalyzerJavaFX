@@ -1,14 +1,11 @@
 package applicationanalyzer.DataClasses;
 
-import applicationanalyzer.misc.AlertSQL;
+import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.ConnectionManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -16,7 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.util.Pair;
 
-public class ApplicationsData {
+public class Applications {
 
     private final SimpleIntegerProperty apl_code;
     private final SimpleStringProperty apl_name;
@@ -31,7 +28,7 @@ public class ApplicationsData {
 
     private static final Properties fieldNames = new Properties();
 
-    public ApplicationsData(Integer apl_code,
+    public Applications(Integer apl_code,
             String apl_name,
             Double apl_income,
             Double apl_obligations,
@@ -78,11 +75,11 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_CODE='" + code + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
-    // TODO Add Import for AlertSQL, SQLException and/or refactor these to use SQLExecutor
+    // TODO Add Import for Alerts, SQLException and/or refactor these to use SQLExecutor
 
     public String getAplName() {
         return apl_name.get();
@@ -94,7 +91,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_NAME='" + name + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -108,7 +105,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_INCOME='" + income + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -122,7 +119,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_OBLIGATIONS='" + obligations + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -136,7 +133,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_RESERVE='" + reserve + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -150,7 +147,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_DEBT_TO_INCOME='" + debt_to_income + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -164,7 +161,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_AGE='" + age + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -178,7 +175,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_EDUCATION='" + education + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -192,7 +189,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_REJECTED='" + rejected + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 
@@ -206,7 +203,7 @@ public class ApplicationsData {
             db_stmt = db_connection.createStatement();
             db_stmt.execute("Update B_APPLICATIONS set APL_IN_DEFAULT='" + in_default + "' where apl_code = " + this.getAplCode());
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
     }
 

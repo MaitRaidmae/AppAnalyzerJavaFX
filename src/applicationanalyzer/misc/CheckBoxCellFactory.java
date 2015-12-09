@@ -5,7 +5,7 @@
  */
 package applicationanalyzer.misc;
 
-import applicationanalyzer.DataClasses.ChecksData;
+import applicationanalyzer.DataClasses.Checks;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
@@ -23,7 +23,7 @@ public class CheckBoxCellFactory<T, Boolean> implements Callback {
     @Override
     public TableCell call(Object param) {
         CheckBox checkBox = new CheckBox();
-        TableCell<ChecksData, Boolean> checkBoxCell = new TableCell() {
+        TableCell<Checks, Boolean> checkBoxCell = new TableCell() {
             @Override
             public void updateItem(Object item, boolean empty) {
                 super.updateItem(item, empty);
@@ -34,7 +34,7 @@ public class CheckBoxCellFactory<T, Boolean> implements Callback {
                 } else {
                     checkBox.setAlignment(Pos.CENTER);
                     setGraphic(checkBox);
-                    ChecksData data = (ChecksData) getTableRow().getItem();
+                    Checks data = (Checks) getTableRow().getItem();
                     if (data != null && data.getChkActive() == 1) {
                         checkBox.setSelected(true);
                     } else {
@@ -48,7 +48,7 @@ public class CheckBoxCellFactory<T, Boolean> implements Callback {
                 (MouseEvent event) -> {
                     TableCell c = (TableCell) event.getSource();
                     CheckBox chkBox = (CheckBox) checkBoxCell.getChildrenUnmodifiable().get(0);
-                    ChecksData data = (ChecksData) c.getTableRow().getItem();
+                    Checks data = (Checks) c.getTableRow().getItem();
 
                     if (chkBox.isSelected()) {
                         data.setChkActive(1);

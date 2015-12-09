@@ -10,7 +10,7 @@ package applicationanalyzer.FXControllers;
  * @author Hundisilm
  */
 import applicationanalyzer.DataClasses.CheckSuits;
-import applicationanalyzer.misc.AlertSQL;
+import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.ConnectionManager;
 import applicationanalyzer.misc.DataStore;
 import java.net.URL;
@@ -86,7 +86,7 @@ public class CheckSuitsController implements Initializable {
             tblv_CheckSuits.setItems(obsArrayList);
             tblv_CheckSuits.getColumns().setAll(chs_code, chs_mnemo, chs_comment, chs_datetime);
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
         }
 
     }

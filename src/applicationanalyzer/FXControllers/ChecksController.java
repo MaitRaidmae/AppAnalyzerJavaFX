@@ -5,6 +5,7 @@
  */
 package applicationanalyzer.FXControllers;
 
+import applicationanalyzer.DataClasses.Applications;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -19,29 +20,38 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.Alert;
-import applicationanalyzer.DataClasses.ChecksData;
-import applicationanalyzer.misc.AlertSQL;
+import applicationanalyzer.DataClasses.Checks;
+import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.DataStore;
 import applicationanalyzer.misc.SQLExecutor;
 import applicationanalyzer.misc.StringToDecimal;
+import java.sql.ResultSetMetaData;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ChecksController implements Initializable {
 
     @FXML
-    private TableView tblv_ChecksData;
+    private TableView tblv_Checks;
     @FXML
     private TableColumn chk_code;
     @FXML
@@ -49,96 +59,28 @@ public class ChecksController implements Initializable {
     @FXML
     private TableColumn chk_type;
     @FXML
-    private TableColumn chk_field;
-    @FXML
-    private TableColumn chk_value_c;
-    @FXML
-    private TableColumn chk_value_n;
-    @FXML
-    private TableColumn chk_value_lov_code;
-    @FXML
-    private TableColumn chk_function;
-    @FXML
     private TableColumn chk_comment;
     @FXML
     private TableColumn chk_active;
     @FXML
+    private TableColumn chk_chs_code;
+    @FXML
+    private TableView<Checks> tblv_ChecksData;
+    @FXML
+    private GridPane grd_check_pars;
+    @FXML
     private MenuBar menuBar;
-    
-    DataStore data = DataStore.getDataStore();
+
+    DataStore dataStore = DataStore.getDataStore();
 
     public void handleGetData(ActionEvent event) {
 //Define new connection
-        initialize(null,null);
-    }
-   
-    @FXML
-    public void handleChkCodeEditCommit(CellEditEvent<ChecksData, Integer> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkCode(t.getNewValue());
+        initialize(null, null);
     }
 
     @FXML
-    public void handleChkMnemoEditCommit(CellEditEvent<ChecksData, String> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkMnemo(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkTypeEditCommit(CellEditEvent<ChecksData, String> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkType(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkFieldEditCommit(CellEditEvent<ChecksData, String> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkField(t.getNewValue());
-        System.out.println(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkValueCEditCommit(CellEditEvent<ChecksData, String> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkValueC(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkValueNEditCommit(CellEditEvent<ChecksData, Double> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkValueN(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkValueLovCodeEditCommit(CellEditEvent<ChecksData, Integer> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkValueLovCode(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkFunctionEditCommit(CellEditEvent<ChecksData, String> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkFunction(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkCommentEditCommit(CellEditEvent<ChecksData, String> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
-                t.getTablePosition().getRow());
-        data.setChkComment(t.getNewValue());
-    }
-
-    @FXML
-    public void handleChkActiveEditCommit(CellEditEvent<ChecksData, Integer> t) {
-        ChecksData data = (ChecksData) t.getTableView().getItems().get(
+    public void handleChkActiveEditCommit(CellEditEvent<Checks, Integer> t) {
+        Checks data = (Checks) t.getTableView().getItems().get(
                 t.getTablePosition().getRow());
         data.setChkActive(t.getNewValue());
     }
@@ -150,74 +92,95 @@ public class ChecksController implements Initializable {
         application_stage.close();
     }
 
-    @FXML
-    public void handleRunChecks(ActionEvent event) {
-        boolean execution = SQLExecutor.executeProcedure("CHECKS.RUN_CHECKS");
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DataStore data = DataStore.getDataStore();
         Integer currSuite = data.getCurrentSuite();
         if (currSuite == null) {
-          currSuite = 1;
+            currSuite = 1;
         }
         String sql = "select * from B_CHECKS where chk_chs_code = " + currSuite;
         ResultSet query_results = SQLExecutor.executeQuery(sql);
-        ObservableList<ChecksData> obsArrayList = FXCollections.observableArrayList();
+        ObservableList<Checks> obsArrayList = FXCollections.observableArrayList();
+
+        //Initialize the checks view
         try {
             while (query_results.next()) {
-                ChecksData table_row = new ChecksData(query_results.getInt(1),
+                Checks queryData = new Checks(query_results.getInt(1),
                         query_results.getString(2),
                         query_results.getString(3),
                         query_results.getString(4),
-                        query_results.getString(5),
-                        query_results.getDouble(6),
-                        query_results.getInt(7),
-                        query_results.getString(8),
-                        query_results.getString(9),
-                        query_results.getInt(10)
-                );
-                obsArrayList.add(table_row);
+                        query_results.getInt(5),
+                        query_results.getInt(6));
+                obsArrayList.add(queryData);
             }
             //new StringToDecimal() is a simple implementation of StringConverter<Number>
             chk_code.setCellValueFactory(new PropertyValueFactory<>("ChkCode"));
-            chk_code.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Integer")));
             chk_mnemo.setCellValueFactory(new PropertyValueFactory<>("ChkMnemo"));
-            chk_mnemo.setCellFactory(TextFieldTableCell.forTableColumn());
             chk_type.setCellValueFactory(new PropertyValueFactory<>("ChkType"));
-            chk_type.setCellFactory(ComboBoxTableCell.forTableColumn(getLov("chk_type")));
-            chk_field.setCellValueFactory(new PropertyValueFactory<>("ChkField"));
-            chk_field.setCellFactory(TextFieldTableCell.forTableColumn());
-            chk_value_c.setCellValueFactory(new PropertyValueFactory<>("ChkValueC"));
-            chk_value_c.setCellFactory(TextFieldTableCell.forTableColumn());
-            chk_value_n.setCellValueFactory(new PropertyValueFactory<>("ChkValueN"));
-            chk_value_n.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Double")));
-            chk_value_lov_code.setCellValueFactory(new PropertyValueFactory<>("ChkValueLovCode"));
-            chk_value_lov_code.setCellFactory(TextFieldTableCell.forTableColumn(new StringToDecimal("Integer")));
-            chk_function.setCellValueFactory(new PropertyValueFactory<>("ChkFunction"));
-            chk_function.setCellFactory(TextFieldTableCell.forTableColumn());
             chk_comment.setCellValueFactory(new PropertyValueFactory<>("ChkComment"));
-            chk_comment.setCellFactory(TextFieldTableCell.forTableColumn());
             chk_active.setCellValueFactory(new PropertyValueFactory<>("ChkActive"));
             chk_active.setCellFactory(new CheckBoxCellFactory());
+            tblv_ChecksData.setRowFactory(rowfactory -> {
+                TableRow<Checks> row = new TableRow<>();
+                row.setOnMouseClicked(MouseEventHandler(row));
+                return row;
+            });
             tblv_ChecksData.setItems(obsArrayList);
-            tblv_ChecksData.getColumns().setAll(chk_code, chk_mnemo, chk_type, chk_field, chk_value_c, chk_value_n, chk_value_lov_code, chk_function, chk_comment, chk_active);
+            tblv_ChecksData.getColumns().setAll(chk_code, chk_mnemo, chk_type, chk_comment, chk_active);
         } catch (SQLException sqle) {
-            AlertSQL.AlertSQL(sqle);
+            Alerts.AlertSQL(sqle);
+        }
+
+        tblv_ChecksData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showCheckParsData(newValue));
+        //Generate Grid View for parameters
+
+    }
+
+    private void showCheckParsData(Checks check) {
+        if (check != null) {
+            int k = 0;
+            String queryDataSql = "";
+
+            switch (check.getChkType()) {
+                case "MIN":
+                case "MAX":
+                    queryDataSql = "select * from v_minmax_check_pars where chk_code = " + check.getChkCode();
+                    break;
+                case "RPREDICT":
+                    queryDataSql = "select * from b_rpredict_check_pars where rcp_chk_code = " + check.getChkCode();
+                    break;
+            }
+
+            ResultSet dataValues = SQLExecutor.executeQuery(queryDataSql);
+            ResultSetMetaData metaData;
+            grd_check_pars.getChildren().clear();
+            try {
+                metaData = dataValues.getMetaData();
+                dataValues.next();
+                for (int i = 2; i <= metaData.getColumnCount(); i++) {
+                    Label fieldNameLbl = new Label(metaData.getColumnName(i));
+                    Label fieldValueLbl = new Label(dataValues.getString(i));
+                    grd_check_pars.add(fieldNameLbl, 0, k);
+                    grd_check_pars.add(fieldValueLbl, 1, k);
+                    k++;
+                }
+            } catch (SQLException sqle) {
+                Alerts.AlertSQL(sqle);
+            }
         }
     }
-    
+
     private ObservableList<String> getLov(String fieldName) {
         String lovSQL = "select * from table(MISC_UTILS.CONSTRAINT_LOV('HUNDISILM','B_CHECKS','CHK_TYPE'))";
         ResultSet lovValues = SQLExecutor.executeQuery(lovSQL);
-        ObservableList<String> lovList =  FXCollections.observableArrayList();
+        ObservableList<String> lovList = FXCollections.observableArrayList();
         try {
-        while (lovValues.next()) {
+            while (lovValues.next()) {
                 lovList.add(lovValues.getString(1));
             }
-        } catch (SQLException slqe){
-            AlertSQL.AlertSQL(slqe);
+        } catch (SQLException slqe) {
+            Alerts.AlertSQL(slqe);
         }
         return lovList;
     }
@@ -227,7 +190,7 @@ public class ChecksController implements Initializable {
         @Override
         public TableCell call(Object param) {
             CheckBox checkBox = new CheckBox();
-            TableCell<ChecksData, Boolean> checkBoxCell = new TableCell() {
+            TableCell<Checks, Boolean> checkBoxCell = new TableCell() {
                 @Override
                 public void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);
@@ -238,7 +201,7 @@ public class ChecksController implements Initializable {
                     } else {
                         checkBox.setAlignment(Pos.CENTER);
                         setGraphic(checkBox);
-                        ChecksData data = (ChecksData) getTableRow().getItem();
+                        Checks data = (Checks) getTableRow().getItem();
                         if (data != null && data.getChkActive() == 1) {
                             checkBox.setSelected(true);
                         } else {
@@ -252,7 +215,7 @@ public class ChecksController implements Initializable {
                     (MouseEvent event) -> {
                         TableCell c = (TableCell) event.getSource();
                         CheckBox chkBox = (CheckBox) checkBoxCell.getChildrenUnmodifiable().get(0);
-                        ChecksData data = (ChecksData) c.getTableRow().getItem();
+                        Checks data = (Checks) c.getTableRow().getItem();
 
                         if (chkBox.isSelected()) {
                             data.setChkActive(1);
@@ -265,7 +228,7 @@ public class ChecksController implements Initializable {
             return checkBoxCell;
         }
     }
-    
+
     @FXML
     public void handleViewCheckSuits(ActionEvent event) {
         try {
@@ -283,10 +246,48 @@ public class ChecksController implements Initializable {
             alert.showAndWait();
         }
     }
-    
+
+    private EventHandler<MouseEvent> MouseEventHandler(TableRow<Checks> row) {
+        EventHandler<MouseEvent> mouseEvent
+                = new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(final MouseEvent event) {
+                        if (event.getClickCount() >= 2) {
+                            //Add DoubleClick mess here.
+                           
+                        } else if (event.getButton() == MouseButton.SECONDARY) {
+                            ContextMenu contextMenu = new ContextMenu();
+                            MenuItem editItem = new MenuItem("Edit");
+                            editItem.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    DataStore dataStore = DataStore.getDataStore();
+                                    dataStore.setCurrentCheck(row.getItem());
+                                    dataStore.setCurrentEditableType("Checks");
+                                    try {
+                                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/EditCheck.fxml"));
+                                        Parent root1 = (Parent) fxmlLoader.load();
+                                        Stage stage = new Stage();
+                                        stage.setScene(new Scene(root1));
+                                        stage.setTitle("Edit Check: " + row.getItem().getChkMnemo());
+                                        stage.getIcons().add(new Image("/applicationanalyzer/icon.png"));
+                                        stage.show();
+                                    } catch (Exception exc) {
+                                        Alerts.AlertWindow(exc);
+                                    }
+                                }
+                            });
+                            contextMenu.getItems().add(editItem);
+                            contextMenu.show(row, event.getScreenX(), event.getScreenY());
+                        }
+                    }
+                };
+        return mouseEvent;
+    }
+
     @FXML
     public void handleRunSuiteChecks(ActionEvent event) {
-        boolean execution = SQLExecutor.executeProcedure("CHECKS.RUN_CHECKS("+data.getCurrentSuite()+")");
+        boolean execution = SQLExecutor.executeProcedure("CHECKS.RUN_CHECKS(" + dataStore.getCurrentSuite() + ")");
     }
 
 }

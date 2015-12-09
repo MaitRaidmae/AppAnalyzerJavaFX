@@ -5,7 +5,7 @@
  */
 package applicationanalyzer.FXControllers;
 
-import applicationanalyzer.misc.AlertSQL;
+import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.ConnectionManager;
 import java.net.URL;
 import java.sql.Connection;
@@ -49,7 +49,7 @@ public class LoginScreenController implements Initializable {
             db_con=login.getDBConnection(username,password);
             try {
                 //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXML/TableView.fxml"));
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/ApplicationsData.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/Applications.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root1));
@@ -69,7 +69,7 @@ public class LoginScreenController implements Initializable {
 
         }        
         catch (SQLException sqle){
-          AlertSQL.AlertSQL(sqle);
+          Alerts.AlertSQL(sqle);
         }      
     }
 
