@@ -9,94 +9,99 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="860.0" prefWidth="1155.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ApplicationsController">
-    <children>
-        <MenuBar fx:id="menuBar" prefHeight="28.0" prefWidth="875.0" VBox.vgrow="NEVER">
-            <menus>
-                <Menu fx:id="menu_file" mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Open…" />
-                        <Menu mnemonicParsing="false" text="Open Recent" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Save As…" />
-                        <MenuItem mnemonicParsing="false" text="Revert" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Preferences…" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Cut" />
-                        <MenuItem mnemonicParsing="false" text="Copy" />
-                        <MenuItem mnemonicParsing="false" text="Paste" />
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Select All" />
-                        <MenuItem mnemonicParsing="false" text="Unselect All" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-            <children>
-                <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <children>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                            <children>
-                                <TableView fx:id="tblv_Applications" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <columns>
-                                        <TableColumn fx:id="apl_code" text="APL_CODE" onEditCommit="#handleAplCodeEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_name" text="APL_NAME" onEditCommit="#handleAplNameEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_income" text="APL_INCOME" onEditCommit="#handleAplIncomeEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_obligations" text="APL_OBLIGATIONS" onEditCommit="#handleAplObligationsEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_reserve" text="APL_RESERVE" onEditCommit="#handleAplReserveEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_debt_to_income" text="APL_DEBT_TO_INCOME" onEditCommit="#handleAplDebtToIncomeEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_age" text="APL_AGE" onEditCommit="#handleAplAgeEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_education" text="APL_EDUCATION" onEditCommit="#handleAplEducationEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_rejected" text="APL_REJECTED" onEditCommit="#handleAplRejectedEditCommit"></TableColumn>
-                                        <TableColumn fx:id="apl_in_default" text="APL_IN_DEFAULT" onEditCommit="#handleAplInDefaultEditCommit"></TableColumn>
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </AnchorPane>
-                        <HBox alignment="TOP_CENTER" prefHeight="25.0">
-                            <children>
-                                <TextField fx:id="resultsField" alignment="CENTER" minWidth="-Infinity" onAction="#updateResults" prefHeight="25.0" prefWidth="111.0" promptText="NumberOfResults" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="25.0">
-                            <children>
-                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" text="Number of results">
-                                    <padding>
-                                        <Insets right="5.0" />
-                                    </padding>
-                                </Label>
-                            </children>
-                        </HBox>
-                        <Separator valignment="BOTTOM" />
-                        <AnchorPane prefHeight="50.0">
-                            <children>
-                                <Button fx:id="btn_getAppData" mnemonicParsing="false" onAction="#handleGetData" text="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="45.0" />
-                                <Button fx:id="btn_viewSuits" layoutX="957.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleViewSuits" text="View Suits" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="125.0" />
-                                <Button fx:id="btn_viewImage" mnemonicParsing="false" onAction="#handleViewImage" text="View Image" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="215.0" />
-                            </children>
-                        </AnchorPane>
-                    </children>
-                </VBox>
-            </children>
-        </AnchorPane>
-    </children>
-</VBox>
+
+<AnchorPane fx:id="applications" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ApplicationsController">
+   <children>
+      <VBox prefHeight="860.0" prefWidth="1155.0">
+          <children>
+              <MenuBar fx:id="menuBar" prefHeight="28.0" prefWidth="875.0" VBox.vgrow="NEVER">
+                  <menus>
+                      <Menu fx:id="menu_file" mnemonicParsing="false" text="File">
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="New" />
+                              <MenuItem mnemonicParsing="false" text="Open…" />
+                              <Menu mnemonicParsing="false" text="Open Recent" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" text="Close" />
+                              <MenuItem mnemonicParsing="false" text="Save" />
+                              <MenuItem mnemonicParsing="false" text="Save As…" />
+                              <MenuItem mnemonicParsing="false" text="Revert" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" text="Preferences…" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
+                          </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Edit">
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Undo" />
+                              <MenuItem mnemonicParsing="false" text="Redo" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" text="Cut" />
+                              <MenuItem mnemonicParsing="false" text="Copy" />
+                              <MenuItem mnemonicParsing="false" text="Paste" />
+                              <MenuItem mnemonicParsing="false" text="Delete" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" text="Select All" />
+                              <MenuItem mnemonicParsing="false" text="Unselect All" />
+                          </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Help">
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                          </items>
+                      </Menu>
+                  </menus>
+              </MenuBar>
+              <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+                  <children>
+                      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <children>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                  <children>
+                                      <TableView fx:id="tblv_Applications" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <columns>
+                                              <TableColumn fx:id="apl_code" onEditCommit="#handleAplCodeEditCommit" text="APL_CODE" />
+                                              <TableColumn fx:id="apl_name" onEditCommit="#handleAplNameEditCommit" text="APL_NAME" />
+                                              <TableColumn fx:id="apl_income" onEditCommit="#handleAplIncomeEditCommit" text="APL_INCOME" />
+                                              <TableColumn fx:id="apl_obligations" onEditCommit="#handleAplObligationsEditCommit" text="APL_OBLIGATIONS" />
+                                              <TableColumn fx:id="apl_reserve" onEditCommit="#handleAplReserveEditCommit" text="APL_RESERVE" />
+                                              <TableColumn fx:id="apl_debt_to_income" onEditCommit="#handleAplDebtToIncomeEditCommit" text="APL_DEBT_TO_INCOME" />
+                                              <TableColumn fx:id="apl_age" onEditCommit="#handleAplAgeEditCommit" text="APL_AGE" />
+                                              <TableColumn fx:id="apl_education" onEditCommit="#handleAplEducationEditCommit" text="APL_EDUCATION" />
+                                              <TableColumn fx:id="apl_rejected" onEditCommit="#handleAplRejectedEditCommit" text="APL_REJECTED" />
+                                              <TableColumn fx:id="apl_in_default" onEditCommit="#handleAplInDefaultEditCommit" text="APL_IN_DEFAULT" />
+                                          </columns>
+                                      </TableView>
+                                  </children>
+                              </AnchorPane>
+                              <HBox alignment="TOP_CENTER" prefHeight="25.0">
+                                  <children>
+                                      <TextField fx:id="resultsField" alignment="CENTER" minWidth="-Infinity" onAction="#updateResults" prefHeight="25.0" prefWidth="111.0" promptText="NumberOfResults" />
+                                  </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="25.0">
+                                  <children>
+                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="111.0" text="Number of results">
+                                          <padding>
+                                              <Insets right="5.0" />
+                                          </padding>
+                                      </Label>
+                                  </children>
+                              </HBox>
+                              <Separator valignment="BOTTOM" />
+                              <AnchorPane prefHeight="50.0">
+                                  <children>
+                                      <Button fx:id="btn_getAppData" mnemonicParsing="false" onAction="#handleGetData" text="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="45.0" />
+                                      <Button fx:id="btn_viewSuits" layoutX="957.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleViewSuits" text="View Suits" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="125.0" />
+                                      <Button fx:id="btn_viewImage" mnemonicParsing="false" onAction="#handleViewImage" text="View Image" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="215.0" />
+                                  </children>
+                              </AnchorPane>
+                          </children>
+                      </VBox>
+                  </children>
+              </AnchorPane>
+          </children>
+      </VBox>
+   </children>
+</AnchorPane>

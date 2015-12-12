@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -104,4 +107,46 @@ public class SQLExecutor {
         }
         return null;
     }
+        
+        /** 
+    *   The function is meant for getting a table row based on a integer key value
+    *   which would typically be a primary key or a foreign key (it would have to be unique).
+    * 
+     * @param tableName
+     * @param columnName
+     * @return 
+    */
+     public static String getPrettyName(String tableName, String columnName) {
+        Connection db_connection = ConnectionManager.cl_conn;
+        String prettyName;
+        try(CallableStatement callStmt = db_connection.prepareCall("{? = call MISC_UTILS.PRETTY_NAME(?,?) }")) {
+            System.out.println(tableName);
+            System.out.println(columnName);
+            callStmt.registerOutParameter(1,Types.VARCHAR);
+            callStmt.setString(2,tableName);
+            callStmt.setString(3,columnName);
+            callStmt.executeUpdate();
+            prettyName = (String) callStmt.getObject(1);
+            return prettyName;
+        } catch (SQLException sqle) {
+            Alerts.AlertSQL(sqle);
+        }
+        return null;
+    }
+     
+    public static ObservableList<String> getLov(String tableName, String fieldName) {
+        String lovSQL = "select * from table(MISC_UTILS.CONSTRAINT_LOV('HUNDISILM','" + tableName +"','" + fieldName + "'))";
+        ResultSet lovValues = SQLExecutor.executeQuery(lovSQL);
+        ObservableList<String> lovList = FXCollections.observableArrayList();
+        try {
+            while (lovValues.next()) {
+                lovList.add(lovValues.getString(1));
+            }
+        } catch (SQLException slqe) {
+            Alerts.AlertSQL(slqe);
+        }
+        return lovList;
+    }
+
+        
 }

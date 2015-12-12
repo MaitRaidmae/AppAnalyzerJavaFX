@@ -5,7 +5,6 @@
  */
 package applicationanalyzer.FXControllers;
 
-import applicationanalyzer.DataClasses.Applications;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,13 +17,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.Alert;
 import applicationanalyzer.DataClasses.Checks;
 import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.DataStore;
 import applicationanalyzer.misc.SQLExecutor;
-import applicationanalyzer.misc.StringToDecimal;
+import java.io.IOException;
 import java.sql.ResultSetMetaData;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -40,18 +38,22 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableRow;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ChecksController implements Initializable {
-
+    
     @FXML
-    private TableView tblv_Checks;
+    private AnchorPane checks;
+    @FXML
+    private TableView<Checks> tblv_Checks;
     @FXML
     private TableColumn chk_code;
     @FXML
@@ -64,8 +66,6 @@ public class ChecksController implements Initializable {
     private TableColumn chk_active;
     @FXML
     private TableColumn chk_chs_code;
-    @FXML
-    private TableView<Checks> tblv_ChecksData;
     @FXML
     private GridPane grd_check_pars;
     @FXML
@@ -121,18 +121,18 @@ public class ChecksController implements Initializable {
             chk_comment.setCellValueFactory(new PropertyValueFactory<>("ChkComment"));
             chk_active.setCellValueFactory(new PropertyValueFactory<>("ChkActive"));
             chk_active.setCellFactory(new CheckBoxCellFactory());
-            tblv_ChecksData.setRowFactory(rowfactory -> {
+            tblv_Checks.setRowFactory(rowfactory -> {
                 TableRow<Checks> row = new TableRow<>();
                 row.setOnMouseClicked(MouseEventHandler(row));
                 return row;
             });
-            tblv_ChecksData.setItems(obsArrayList);
-            tblv_ChecksData.getColumns().setAll(chk_code, chk_mnemo, chk_type, chk_comment, chk_active);
+            tblv_Checks.setItems(obsArrayList);
+            tblv_Checks.getColumns().setAll(chk_code, chk_mnemo, chk_type, chk_comment, chk_active);
         } catch (SQLException sqle) {
             Alerts.AlertSQL(sqle);
         }
 
-        tblv_ChecksData.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showCheckParsData(newValue));
+        tblv_Checks.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showCheckParsData(newValue));
         //Generate Grid View for parameters
 
     }
@@ -258,23 +258,12 @@ public class ChecksController implements Initializable {
                         } else if (event.getButton() == MouseButton.SECONDARY) {
                             ContextMenu contextMenu = new ContextMenu();
                             MenuItem editItem = new MenuItem("Edit");
+                            Checks check = row.getItem();
                             editItem.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent e) {
-                                    DataStore dataStore = DataStore.getDataStore();
-                                    dataStore.setCurrentCheck(row.getItem());
-                                    dataStore.setCurrentEditableType("Checks");
-                                    try {
-                                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/applicationanalyzer/FXML/EditCheck.fxml"));
-                                        Parent root1 = (Parent) fxmlLoader.load();
-                                        Stage stage = new Stage();
-                                        stage.setScene(new Scene(root1));
-                                        stage.setTitle("Edit Check: " + row.getItem().getChkMnemo());
-                                        stage.getIcons().add(new Image("/applicationanalyzer/icon.png"));
-                                        stage.show();
-                                    } catch (Exception exc) {
-                                        Alerts.AlertWindow(exc);
-                                    }
+                                    check.showEditDialog(checks.getScene().getWindow());
+                                    initialize(null,null);
                                 }
                             });
                             contextMenu.getItems().add(editItem);
@@ -284,7 +273,7 @@ public class ChecksController implements Initializable {
                 };
         return mouseEvent;
     }
-
+    
     @FXML
     public void handleRunSuiteChecks(ActionEvent event) {
         boolean execution = SQLExecutor.executeProcedure("CHECKS.RUN_CHECKS(" + dataStore.getCurrentSuite() + ")");

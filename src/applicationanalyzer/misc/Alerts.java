@@ -5,6 +5,7 @@
  */
 package applicationanalyzer.misc;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
 
@@ -27,6 +28,15 @@ public class Alerts {
         alert.setTitle("Window opening error");
         alert.setHeaderText("Error loading new window");
         System.out.println("Error loading new window " + exception.getMessage());
+        alert.setContentText(exception.getMessage());
+        alert.showAndWait();
+    }
+
+    public static void AlertIO(IOException exception) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("IO Error");
+        alert.setHeaderText("IO Error occurred");
+        System.out.println("IO Error: " + exception.getMessage());
         alert.setContentText(exception.getMessage());
         alert.showAndWait();
     }
