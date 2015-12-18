@@ -1,0 +1,16 @@
+.checkSuitsTable #chs_code {
+  -app-table-col-width: 100.0;
+  -app-table-col-visible: false;
+}
+.checkSuitsTable #chs_mnemo {
+  -app-table-col-width: 100.0;
+  -app-table-col-visible: true;
+}
+.checkSuitsTable #chs_comment {
+  -app-table-col-width: 200.0;
+  -app-table-col-visible: true;
+}
+.checkSuitsTable #chs_datetime {
+  -app-table-col-width: 100.0;
+  -app-table-col-visible: true;
+}

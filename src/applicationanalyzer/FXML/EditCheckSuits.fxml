@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.input.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<AnchorPane fx:id="checks" prefHeight="545.0" prefWidth="863.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ChecksController">
-   <children>
-      <BorderPane layoutX="-211.0" layoutY="-123.0" prefHeight="518.0" prefWidth="669.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane id="AnchorPane" prefHeight="320.0" prefWidth="311.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="applicationanalyzer.FXControllers.EditCheckSuitsController">
+    <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-                <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1151.0" BorderPane.alignment="CENTER">
+                <MenuBar fx:id="menuBar" prefHeight="25.0" BorderPane.alignment="CENTER">
                     <menus>
                         <Menu fx:id="menu_file" mnemonicParsing="false" text="File">
                             <items>
@@ -29,7 +25,7 @@
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem mnemonicParsing="false" text="Preferences…" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
-                                <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
+                                <MenuItem mnemonicParsing="false" text="Quit" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Edit">
@@ -55,23 +51,14 @@
                 </MenuBar>
          </top>
          <center>
-            <SplitPane dividerPositions="0.7" BorderPane.alignment="CENTER">
-               <items>
-                  <AnchorPane fx:id="checksPane">
-                              </AnchorPane>
-                  <AnchorPane fx:id="checkParsPane" prefHeight="200.0" prefWidth="200.0">
-                              </AnchorPane>
-               </items>
-            </SplitPane>
+            <AnchorPane id="editCheckSuitsPane" fx:id="editCheckSuitsPane" styleClass="editCheck" BorderPane.alignment="CENTER" />
          </center>
          <bottom>
-                  <AnchorPane prefHeight="42.0" prefWidth="708.0" BorderPane.alignment="CENTER">
-                      <children>
-                          <Button fx:id="btnViewSuits" mnemonicParsing="false" onAction="#handleViewCheckSuits" text="View Suits" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="210.0" />
-                          <Button fx:id="btnRunSuiteChecks" mnemonicParsing="false" onAction="#handleRunSuiteChecks" text="Run Suite Checks" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="100.0" />
-                          <Button fx:id="btnSearchItems" mnemonicParsing="false" onAction="#searchData" text="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="25.0" />
-                      </children>
-                  </AnchorPane>
+            <AnchorPane prefHeight="27.0" prefWidth="252.0" BorderPane.alignment="CENTER">
+               <children>
+                          <Button fx:id="btnCommit" mnemonicParsing="false" onAction="#handleCommit" text="Commit" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
          </bottom>
       </BorderPane>
    </children>

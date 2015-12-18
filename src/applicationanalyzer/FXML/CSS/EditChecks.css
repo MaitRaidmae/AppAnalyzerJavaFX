@@ -1,0 +1,8 @@
+.checkGrid {
+   -fx-grid-lines-visible: false;
+   -fx-padding: 10;
+   -fx-hgap: 5;
+   -fx-vgap: 5;
+   -app-grid-col1-width: 100;
+   -app-grid-col2-width: 150;
+}

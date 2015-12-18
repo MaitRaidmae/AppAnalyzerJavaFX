@@ -5,14 +5,13 @@
  */
 package applicationanalyzer.FXControllers;
 
-import applicationanalyzer.DataClasses.Checks;
+import applicationanalyzer.DataClasses.CheckSuits;
 import applicationanalyzer.misc.CssLoader;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -22,46 +21,35 @@ import javafx.stage.Stage;
  *
  * @author Hundisilm
  */
-public class EditCheckController implements Initializable {
+public class EditCheckSuitsController implements Initializable {
 
     @FXML
-    AnchorPane editBox;
+    AnchorPane editCheckSuitsPane;
 
     @FXML
-    AnchorPane editParsBox;
-    
-    @FXML
-    MenuBar menuBar;
+    GridPane grid_pars;
 
     private GridPane checkGrid;
     private GridPane parsGrid;
-    private Boolean commited = false;
-    private Checks check;
+    private Boolean commited;
+    private CheckSuits checkSuits;
     private Stage editStage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
-    
-    
-    public void initObject(Checks newCheck) {
+
+    public void initObject(CheckSuits newCheckSuits) {
                 //Load CSS and set 
         
-        this.check = newCheck;
-        checkGrid = check.getGrid(true);
-        CssLoader css = new CssLoader("/applicationanalyzer/FXML/CSS/EditChecks.css", "checkGrid");
+        this.checkSuits = newCheckSuits;
+        checkGrid = checkSuits.getGrid(true);
+        CssLoader css = new CssLoader("/applicationanalyzer/FXML/CSS/EditCheckSuits.css", "editCheckSuitsGrid");
         checkGrid.getColumnConstraints().add(new ColumnConstraints(css.GRID_COL1_WIDTH));
         checkGrid.getColumnConstraints().add(new ColumnConstraints(css.GRID_COL2_WIDTH));
         checkGrid.getStyleClass().add("checkGrid");
-        editBox.getChildren().add(checkGrid);
+        editCheckSuitsPane.getChildren().add(checkGrid);
 
-        parsGrid = check.getParsGrid(true);
-        if (parsGrid != null) {
-            parsGrid.getColumnConstraints().add(new ColumnConstraints(css.GRID_COL1_WIDTH));
-            parsGrid.getColumnConstraints().add(new ColumnConstraints(css.GRID_COL2_WIDTH));
-            parsGrid.getStyleClass().add("checkGrid");
-            editParsBox.getChildren().add(parsGrid);
-        }
     }
 
     public void setStage(Stage stage) {
@@ -73,12 +61,8 @@ public class EditCheckController implements Initializable {
     }
 
     public void handleCommit(ActionEvent event) {      
-        check.setFromGrid(checkGrid);
-        check.commit();
-        if (parsGrid != null) {
-            check.setParsFromGrid(parsGrid);
-            check.commitPars();
-        }
+        checkSuits.setFromGrid(checkGrid);
+        checkSuits.commit();
         commited = true;
         editStage.close();
     }

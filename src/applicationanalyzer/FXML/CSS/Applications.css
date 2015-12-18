@@ -1,0 +1,42 @@
+
+.applicationsTable #apl_code {
+  -app-table-col-width: 100.0;
+  -app-table-col-visible: false;
+}
+.applicationsTable #apl_name {
+  -app-table-col-width: 100.0;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_income {
+  -app-table-col-width: 75.0;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_obligations {
+  -app-table-col-width: 75.0;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_reserve {
+  -app-table-col-width: 75.0;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_debt_to_income {
+  -app-table-col-width: 100.0;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_age {
+  -app-table-col-width: 50;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_education {
+  -app-table-col-width: 150.0;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_rejected {
+  -app-table-col-width: 75.0;
+  -app-table-col-visible: true;
+}
+.applicationsTable #apl_in_default {
+  -app-table-col-width: 75.0;
+  -app-table-col-visible: true;
+}
+

@@ -6,12 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane fx:id="applicationChecks" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ApplicationChecksDataController">
+<AnchorPane fx:id="ApplicationChecks" prefHeight="457.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applicationanalyzer.FXControllers.ApplicationChecksController">
    <children>
-      <VBox prefHeight="460.0" prefWidth="551.0">
-          <children>
-              <MenuBar fx:id="menuBar" prefHeight="28.0" prefWidth="875.0">
+      <BorderPane prefHeight="457.0" prefWidth="551.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+              <MenuBar fx:id="menuBar" prefHeight="28.0" prefWidth="611.0" BorderPane.alignment="CENTER">
                   <menus>
                       <Menu fx:id="menu_file" mnemonicParsing="false" text="File">
                           <items>
@@ -50,23 +49,15 @@
                       </Menu>
                   </menus>
               </MenuBar>
-            <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         </top>
+         <center>
+            <SplitPane dividerPositions="0.35" prefHeight="432.0" prefWidth="651.0" BorderPane.alignment="CENTER">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="508.0">
-                     <children>
-                        <GridPane fx:id="application_info" prefHeight="158.0" prefWidth="382.0">
-                  </GridPane>
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="364.0">
-                     <children>
-                        <GridPane fx:id="checks_info" prefHeight="158.0" prefWidth="382.0">
-                  </GridPane>
-                     </children>
-                  </AnchorPane>
+                <AnchorPane fx:id="applicationsPane" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="508.0" />
+                <AnchorPane fx:id="applicationChecksPane" minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="367.0" />
               </items>
             </SplitPane>
-          </children>
-      </VBox>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

@@ -24,7 +24,7 @@ public class ConnectionManager {
     public Connection getDBConnection(String userid, String password) throws SQLException{
     
     //String jdbcUrl = "jdbc:oracle:thin:@localhost:1521/DatabaseHundi";
-    String jdbcUrl = "jdbc:oracle:thin:@localhost:1522/hundiplug";
+    String jdbcUrl = "jdbc:oracle:thin:@localhost:1521/hundiplug";
     
     OracleDataSource ds;
     ds = new OracleDataSource();

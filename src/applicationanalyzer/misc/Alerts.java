@@ -40,4 +40,15 @@ public class Alerts {
         alert.setContentText(exception.getMessage());
         alert.showAndWait();
     }
+    
+    public static void GeneralAlert(Exception exception) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("General Error");
+        alert.setHeaderText("An error of general type has occurreth.");
+        System.out.println("Error: " + exception.getMessage());
+        alert.setContentText(exception.getMessage());
+        alert.showAndWait();
+    }
+    
+    
 }

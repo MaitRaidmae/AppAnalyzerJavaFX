@@ -7,6 +7,8 @@ package applicationanalyzer.FXControllers;
 
 import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.ConnectionManager;
+import applicationanalyzer.misc.CssLoader;
+import applicationanalyzer.misc.Helpers;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.ResourceBundle;
@@ -21,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 
 /**
@@ -37,6 +40,8 @@ public class LoginScreenController implements Initializable {
     private TextField fld_password;
     @FXML
     private Button btn_login;
+    @FXML
+    private Button test;
     
     
     @FXML
@@ -71,6 +76,19 @@ public class LoginScreenController implements Initializable {
         catch (SQLException sqle){
           Alerts.AlertSQL(sqle);
         }      
+    }
+    
+    @FXML
+    private void handleTest(ActionEvent event){
+        /*
+        CssLoader cssLoader = new CssLoader("/applicationanalyzer/FXML/CSS/ApplicationChecks.css","applicationChecksTable");
+        System.out.println(cssLoader.TABLE_COL_WIDTHS.get("APL_CODE"));*/
+        
+        TableColumn col = Helpers.initTableColumn("V_APPLICATION_CHECKS", "APL_CODE");
+        
+        /*
+        CssLoader cssLoader = new CssLoader("/applicationanalyzer/FXML/CSS/ApplicationChecks.css","applicationsGrid");
+        System.out.println(cssLoader.GRID_COL1_WIDTH);*/
     }
 
 

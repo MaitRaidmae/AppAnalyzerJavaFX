@@ -5,7 +5,6 @@
  */
 package applicationanalyzer.DataClasses;
 
-import static applicationanalyzer.DataClasses.MinmaxCheckPars.getResultSet;
 import applicationanalyzer.misc.Alerts;
 import applicationanalyzer.misc.CallableStatementResults;
 import applicationanalyzer.misc.ConnectionManager;
@@ -18,8 +17,8 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -44,12 +43,13 @@ public class RpredictCheckPars {
         this.rcp_model = new SimpleStringProperty(rcp_model);
     }
 
-    public RpredictCheckPars(Integer chk_code) {
-        CallableStatementResults callResults = SQLExecutor.getTableRow("P_RPREDICT_CHECK_PARS", "RCP_CHK_CODE", chk_code);
+    public RpredictCheckPars(Integer RCP_CHK_CODE) {
+        CallableStatementResults callResults = SQLExecutor.getTableRow("P_RPREDICT_CHECK_PARS", "RCP_CHK_CODE", RCP_CHK_CODE);
         ResultSet pars = callResults.getResultSet();
         Integer code = 0;
         String type = "";
         Double threshold = 0.0;
+        Integer chk_code = 0;
         String model = "";
         try {
             pars.next();
@@ -109,6 +109,68 @@ public class RpredictCheckPars {
         rcp_model.set(model);
     }
 
+    public GridPane getGrid(Boolean editable) {
+        GridPane grid = new GridPane();
+        int k = 0;
+        String fieldType = "";
+        CallableStatementResults callResults = SQLExecutor.getTableRow("P_RPREDICT_CHECK_PARS", "RCP_CODE", this.getRcpCode());
+        ResultSet dataValues = callResults.getResultSet();
+        ResultSetMetaData metaData;
+        TextField textField = new TextField();
+        ComboBox comboBox = new ComboBox();
+        try {
+            metaData = dataValues.getMetaData();
+            dataValues.next();
+            for (int i = 2; i <= metaData.getColumnCount(); i++) {
+                Label fieldNameLbl = new Label(SQLExecutor.getPrettyName("B_RPREDICT_CHECK_PARS", metaData.getColumnName(i)));
+                grid.add(fieldNameLbl, 0, k);
+                if (!editable) {
+                    Label fieldValueLbl = new Label(dataValues.getString(i));
+                    grid.add(fieldValueLbl, 1, k);
+                } else {
+                    switch (metaData.getColumnName(i)) {
+
+                        case "RCP_CODE":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "RCP_TYPE":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "RCP_THRESHOLD":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "RCP_CHK_CODE":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "RCP_MODEL":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                    }
+                    switch (fieldType) {
+                        case "textField":
+                            textField.setId(metaData.getColumnName(i));
+                            grid.add(textField, 1, k);
+                            break;
+                        case "comboBox":
+                            comboBox.setId(metaData.getColumnName(i));
+                            grid.add(comboBox, 1, k);
+                            break;
+                    }
+                }
+                k++;
+            }
+        } catch (SQLException sqle) {
+            Alerts.AlertSQL(sqle);
+        }
+        callResults.close();
+        return grid;
+    }
+
     public void commit() {
         Connection db_connection = ConnectionManager.cl_conn;
         try (CallableStatement callStmt = db_connection.prepareCall("{ call P_RPREDICT_CHECK_PARS.UPDATE_ROW(?,?,?,?,?) }")) {
@@ -123,55 +185,40 @@ public class RpredictCheckPars {
         }
     }
 
-    public static CallableStatementResults getResultSet(Integer chk_code) {
-        CallableStatementResults callResults = SQLExecutor.getTableRow("P_RPREDICT_CHECK_PARS", "RCP_CHK_CODE", chk_code);
-        return callResults;
-    }
 
-    public GridPane getEditGrid() {
-        GridPane grid = new GridPane();
-        int k = 0;
-        CallableStatementResults callResults = SQLExecutor.getTableRow("P_RPREDICT_CHECK_PARS", "RCP_CODE", this.getRcpCode());
-        ResultSet dataValues = callResults.getResultSet();
-        ResultSetMetaData metaData;
-        grid.getChildren().clear();
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(5);
-        grid.setHgap(5);
-        try {
-            metaData = dataValues.getMetaData();
-            dataValues.next();
-            for (int i = 2; i <= metaData.getColumnCount(); i++) {
-                Label fieldNameLbl = new Label(SQLExecutor.getPrettyName("B_RPREDICT_CHECK_PARS", metaData.getColumnName(i)));
-                grid.add(fieldNameLbl, 0, k);
-                TextField textField = new TextField(dataValues.getString(i));
-                textField.setId(metaData.getColumnName(i));
-                grid.add(textField, 1, k);
-                k++;
-            }
-        } catch (SQLException sqle) {
-            Alerts.AlertSQL(sqle);
-        }
-        return grid;
-    }
-    
     public void setFromGrid(GridPane grid) {
         for (Node node : grid.getChildren()) {
             if (node instanceof TextField) {
                 TextField textField = (TextField) node;
                 switch (textField.getId()) {
-                    case "RCP_MODEL":
-                        this.setRcpModel(textField.getText());
-                        break;
-                    case "RCP_THRESHOLD":
-                        this.setRcpThreshold(Double.parseDouble(textField.getText()));
+
+                    case "RCP_CODE":
+                        this.setRcpCode(Integer.parseInt(textField.getText()));
                         break;
                     case "RCP_TYPE":
                         this.setRcpType(textField.getText());
                         break;
+                    case "RCP_THRESHOLD":
+                        this.setRcpThreshold(Double.parseDouble(textField.getText()));
+                        break;
+                    case "RCP_CHK_CODE":
+                        this.setRcpChkCode(Integer.parseInt(textField.getText()));
+                        break;
+                    case "RCP_MODEL":
+                        this.setRcpModel(textField.getText());
+                        break;
+                }
+            } else if (node instanceof ComboBox) {
+                ComboBox comboBox = (ComboBox) node;
+                switch (comboBox.getId()) {
+
                 }
             }
         }
     }
 
+    public static CallableStatementResults getResultSet(Integer RCP_CHK_CODE) {
+        CallableStatementResults callResults = SQLExecutor.getTableRow("P_RPREDICT_CHECK_PARS", "RCP_CHK_CODE", RCP_CHK_CODE);
+        return callResults;
+    }
 }

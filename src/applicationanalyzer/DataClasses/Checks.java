@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -104,6 +103,7 @@ public class Checks {
 
     public void setChkActive(Integer active) {
         chk_active.set(active);
+        SQLExecutor.updateRowNvalue("P_CHECKS",getChkCode(),"CHK_ACTIVE",getChkActive());
     }
 
     public Integer getChkChsCode() {
@@ -150,8 +150,7 @@ public class Checks {
         return null;
     }
 
-    
-    public GridPane getEditGrid() {
+    public GridPane getGrid(Boolean editable) {
         GridPane grid = new GridPane();
         int k = 0;
         String fieldType = "";
@@ -160,52 +159,56 @@ public class Checks {
         ResultSetMetaData metaData;
         TextField textField = new TextField();
         ComboBox comboBox = new ComboBox();
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(5);
-        grid.setHgap(5);
+
+
         try {
             metaData = dataValues.getMetaData();
             dataValues.next();
             for (int i = 2; i <= metaData.getColumnCount(); i++) {
                 Label fieldNameLbl = new Label(SQLExecutor.getPrettyName("B_CHECKS", metaData.getColumnName(i)));
                 grid.add(fieldNameLbl, 0, k);
-                switch (metaData.getColumnName(i)) {
+                if (!editable) {
+                    Label fieldValueLbl = new Label(dataValues.getString(i));
+                    grid.add(fieldValueLbl, 1, k);
+                } else {
+                    switch (metaData.getColumnName(i)) {
 
-                    case "CHK_CODE":
-                        textField = new TextField(dataValues.getString(i));
-                        fieldType = "textField";
-                        break;
-                    case "CHK_MNEMO":
-                        textField = new TextField(dataValues.getString(i));
-                        fieldType = "textField";
-                        break;
-                    case "CHK_TYPE":
-                        comboBox = new ComboBox(SQLExecutor.getLov("B_CHECKS",metaData.getColumnName(i)));
-                        comboBox.setValue(dataValues.getString(i));
-                        fieldType = "comboBox";
-                        break;
-                    case "CHK_COMMENT":
-                        textField = new TextField(dataValues.getString(i));
-                        fieldType = "textField";
-                        break;
-                    case "CHK_ACTIVE":
-                        textField = new TextField(dataValues.getString(i));
-                        fieldType = "textField";
-                        break;
-                    case "CHK_CHS_CODE":
-                        textField = new TextField(dataValues.getString(i));
-                        fieldType = "textField";
-                        break;
-                }
-                switch (fieldType) {
-                    case "textField":
-                        textField.setId(metaData.getColumnName(i));
-                        grid.add(textField, 1, k);
-                        break;
-                    case "comboBox":
-                        comboBox.setId(metaData.getColumnName(i));
-                        grid.add(comboBox, 1, k);
-                        break;
+                        case "CHK_CODE":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "CHK_MNEMO":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "CHK_TYPE":
+                            comboBox = new ComboBox(SQLExecutor.getLov("B_CHECKS", metaData.getColumnName(i)));
+                            comboBox.setValue(dataValues.getString(i));
+                            fieldType = "comboBox";
+                            break;
+                        case "CHK_COMMENT":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "CHK_ACTIVE":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                        case "CHK_CHS_CODE":
+                            textField = new TextField(dataValues.getString(i));
+                            fieldType = "textField";
+                            break;
+                    }
+                    switch (fieldType) {
+                        case "textField":
+                            textField.setId(metaData.getColumnName(i));
+                            grid.add(textField, 1, k);
+                            break;
+                        case "comboBox":
+                            comboBox.setId(metaData.getColumnName(i));
+                            grid.add(comboBox, 1, k);
+                            break;
+                    }
                 }
                 k++;
             }
@@ -250,13 +253,13 @@ public class Checks {
         }
     }
 
-    public GridPane getEditParsGrid() {
+    public GridPane getParsGrid(Boolean editable) {
         switch (this.getChkType()) {
             case "MIN":
             case "MAX":
-                return mmPars.getEditGrid();
+                return mmPars.getGrid(editable);
             case "RPREDICT":
-                return rpPars.getEditGrid();
+                return rpPars.getGrid(editable);
         }
         return null;
     }
@@ -298,10 +301,10 @@ public class Checks {
             editStage.initOwner(owner);
             Scene scene = new Scene(page);
             editStage.setScene(scene);
-
+            scene.getStylesheets().add("/applicationanalyzer/FXML/CSS/EditChecks.css");
             // Set the check into the contoller
             EditCheckController controller = fxmlLoader.getController();
-            controller.setCheck(this);
+            controller.initObject(this);
             controller.setStage(editStage);
             editStage.showAndWait();
 
